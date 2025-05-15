@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import { Button } from "@/components/ui/button";
+import { Button } from "../components/ui/button";
 
 const VAULT_ADDRESS = "0xYourVaultContractAddress";
 const USDC_ADDRESS = "0xYourMockUSDCAddress";
