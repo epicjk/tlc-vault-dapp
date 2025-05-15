@@ -26,15 +26,24 @@ export default function VaultApp() {
   const [totalClaimable, setTotalClaimable] = useState("0");
 
   useEffect(() => {
-    if (typeof window.ethereum !== "undefined") {
-      const p = new ethers.providers.Web3Provider(window.ethereum);
-      setProvider(p);
-      p.send("eth_requestAccounts", []).then(() => {
-        const s = p.getSigner();
-        setSigner(s);
-        s.getAddress().then(setAccount);
-        setVault(new ethers.Contract(VAULT_ADDRESS, ABI, s));
-      });
+    if (
+      typeof window !== "undefined" &&
+      typeof window.ethereum !== "undefined" &&
+      typeof ethers !== "undefined" &&
+      ethers.providers?.Web3Provider
+    ) {
+      try {
+        const p = new ethers.providers.Web3Provider(window.ethereum);
+        setProvider(p);
+        p.send("eth_requestAccounts", []).then(() => {
+          const s = p.getSigner();
+          setSigner(s);
+          s.getAddress().then(setAccount);
+          setVault(new ethers.Contract(VAULT_ADDRESS, ABI, s));
+        });
+      } catch (error) {
+        console.error("Web3Provider setup failed:", error);
+      }
     }
   }, []);
 
